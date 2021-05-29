@@ -9,6 +9,10 @@ app.get('/', (req, res) => {
     })
 })
 
+app.post('/settings', (req, res) => {
+    res.status(200)
+})
+
 export namespace web {
     export function launch() {
         app.listen(process.env.TPRINTER_PORT)
