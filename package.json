@@ -4,10 +4,9 @@
   "description": "Telegram bot which manages printer",
   "main": "./index.js",
   "scripts": {
-    "build": "\"./scripts/build.sh\"",
-    "start": "\"./scripts/run.sh\"",
-    "docker": "\"./scripts/docker.sh\"",
-    "test": "\"./scripts/test.sh\""
+    "build": "tsc && mkdir ./build/webapp && cp -r ./webapp/* ./build/webapp/ && cp ./package*.json ./build/ && cd ../../",
+    "start": "cp -r ./node_modules/* ./build/node_modules/ && cd ./build && node .",
+    "test": "cd ./build/ && node index.spec.js && cd ../"
   },
   "author": "litepas",
   "license": "GPL-3.0-or-later",
