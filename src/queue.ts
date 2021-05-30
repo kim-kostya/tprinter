@@ -1,5 +1,6 @@
 import { data } from "./data";
 import { DownloaderHelper } from 'node-downloader-helper'
+import printer from 'node-printer'
 
 export var items: data.Document[] = []
 export var currentDocument: data.Document;
@@ -33,6 +34,10 @@ export async function download(url: string, name: string, author: number, id: st
             callback()
         })
     })
+}
+
+export async function print(doc: Document) {
+    
 }
 
 export function next() {

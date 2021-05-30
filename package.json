@@ -6,19 +6,27 @@
   "scripts": {
     "build": "tsc && mkdir ./build/webapp && cp -r ./webapp/* ./build/webapp/ && cp ./package*.json ./build/ && cd ../../",
     "start": "cp -r ./node_modules/* ./build/node_modules/ && cd ./build && node .",
+    "pack": "node ./scripts/archive.js",
     "test": "cd ./build/ && node index.spec.js && cd ../"
   },
   "author": "litepas",
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "cups": "^0.1.0",
+    "edge": "^7.10.1",
     "express": "^4.17.1",
     "node-downloader-helper": "^1.0.18",
+    "node-gyp": "^3.8.0",
+    "node-printer": "^1.0.4",
+    "node-stream-zip": "^1.13.4",
+    "nodeJs-zip": "^1.0.4",
     "sqlite3": "^5.0.2",
     "telegraf": "^4.3.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.12",
     "@types/node": "^15.6.0",
+    "@types/printer": "^0.4.0",
     "@types/sqlite3": "^3.1.7"
   }
 }
