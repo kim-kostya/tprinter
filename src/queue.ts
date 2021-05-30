@@ -1,6 +1,6 @@
 import { data } from "./data";
 import { DownloaderHelper } from 'node-downloader-helper'
-import printer from 'node-printer'
+import printer from 'printer'
 
 export var items: data.Document[] = []
 export var currentDocument: data.Document;
