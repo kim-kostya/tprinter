@@ -1,5 +1,6 @@
 import {Telegraf} from 'telegraf'
 import {download} from './queue'
+import { data } from './data'
 
 const bot = new Telegraf(process.env.TPRINTER_BOT_TOKEN ? process.env.TPRINTER_BOT_TOKEN : '')
 
@@ -21,5 +22,9 @@ export namespace telegram {
 
     export function launch() {
         bot.launch()
+    }
+
+    export function sendMessage(message: string, receiver: data.User) {
+        bot.telegram.sendMessage(receiver.id, message)
     }
 }

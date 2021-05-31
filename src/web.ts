@@ -1,5 +1,6 @@
 import express from 'express'
 import { readFile } from 'fs'
+import printer from 'printer';
 
 const app = express()
 
@@ -10,7 +11,11 @@ app.get('/', (req, res) => {
 })
 
 app.post('/settings', (req, res) => {
-    res.status(200)
+    res.status(200).send()
+})
+
+app.get('/printers', (req, res) => {
+    res.json(printer.getPrinters())
 })
 
 export namespace web {

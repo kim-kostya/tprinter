@@ -8,16 +8,45 @@
 
     <script defer type="text/javascript">
         function submitSettings() {
-            
-        }
-
-        function resetSettings() {
-
+            let submitSettingsRequest = new XMLHttpRequest();
+            submitSettingsRequest.open('POST', '/settings', true);
+            let printerList = document.getElementById('printer-list')
+            submitSettingsRequest.send(JSON.stringify({
+                'printer': printerList.options[printerList.selectedIndex]
+            }))
         }
 
         function loadSettings() {
-
+            let loadSettingsRequest = new XMLHttpRequest();
+            loadSettingsRequest.open('GET', '/settings', true);
+            loadSettingsRequest.onload = function() {
+                if (this.readyState == 4 && this.status === 200) {
+                    let resp = JSON.parse(printerListRequest.responseText);
+                }
+            }
         }
+
+        function printerListLoad() {
+            let printerListRequest = new XMLHttpRequest();
+            printerListRequest.open('GET', '/printers', true)
+            loadSettingsRequest.onload = function() {
+                if (this.readyState == 4 && this.status === 200) {
+                    let resp = JSON.parse(printerListRequest.responseText);
+                    for (let printer in printers) {
+                        let printerList = document.getElementById('printer-list')
+                        let option=document.createElement("option")
+
+                        option.text = printer.name
+                        option.value = printer.name
+
+                        printerList.appendChild(option)
+                    }
+                }
+            }
+        }
+
+        loadSettings()
+        printerListLoad()
     </script>
 </head>
 <body>
@@ -27,11 +56,11 @@
         <ul>
             <li>
                 <label>Printer</label>
-                <datalist>
-                    <option>
-                        
-                    </option>
-                </datalist>
+                <select id='printer-list'>
+                </select>
+            </li>
+            <li>
+                <button type="submit" onload="submitSettings()">Submit</button>
             </li>
         </ul>
     </form>
