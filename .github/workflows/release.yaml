@@ -24,10 +24,6 @@ jobs:
             name: windows-amd64.zip
             path: ./out/build.zip
             arch: x64
-          - os: macos-latest
-            name: macos-amd64.zip
-            path: ./out/build.zip
-            arch: x64
         node-version: [10.x, 12.x, 14.x, 15.x]
 
     steps:
