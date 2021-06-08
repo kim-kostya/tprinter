@@ -1,6 +1,7 @@
 import { data } from "./data";
 import { telegram } from "./telegram";
 import { DownloaderHelper } from 'node-downloader-helper'
+import childProcess from 'child_process';
 import printer from 'printer'
 import index from './index'
 
@@ -39,19 +40,12 @@ export async function download(url: string, name: string, author: number, id: st
 }
 
 export async function print(doc: data.Document) {
-    let options: printer.PrintFileOptions = {
-        filename: doc.path,
-        printer: index.CURRENT_PRINTER,
-        success: function(jobId: string) {
-            console.debug(`Job ${jobId} finished`)
-            next()
-        },
-        error: function() {
-            console.error(`Cannot print file ${doc.id} in ${doc.path}`)
-            telegram.sendMessage(`Cannot your file ${doc.id}`, doc.author)
-        }
+    if (process.platform === "linux") {
+        childProcess.execSync(`lp ${doc.path}`)
+    } else {
+        childProcess.execSync(`print ${doc.path}`)
     }
-    printer.printFile(options)
+    next()
 }
 
 export function next() {

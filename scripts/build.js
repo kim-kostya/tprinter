@@ -1,6 +1,9 @@
 const core = require("./scriptslib");
 
+// TS
 core.execute('tsc');
+
+// Webapp
 core.mkdir('./build/webapp');
 if (process.platform === 'win32') {
     core.execute('copy .\\webapp\\* .\\build\\webapp');

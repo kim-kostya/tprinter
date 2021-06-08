@@ -13,12 +13,8 @@
   "author": "litepas",
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "cups": "^0.1.0",
-    "edge": "^7.10.1",
     "express": "^4.17.1",
     "node-downloader-helper": "^1.0.18",
-    "node-gyp": "^3.8.0",
-    "node-printer": "^1.0.4",
     "node-stream-zip": "^1.13.4",
     "nodeJs-zip": "^1.0.4",
     "sqlite3": "^5.0.2",

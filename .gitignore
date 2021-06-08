@@ -1,5 +1,10 @@
+# TS
 build/
 out/
 node_modules/
 
+# IDE
 .vscode/
+
+# RUST
+native/target/

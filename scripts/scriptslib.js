@@ -4,7 +4,13 @@ const childProcess = require('child_process');
 module.exports = {
     execute: function(command) {
         console.log(`> ${command}`);
-        console.log(childProcess.execSync(command).toString());
+        try {
+            childProcess.execSync(`cmd.exe /C ${command}`, {
+                encoding: "utf8"
+            });
+        } catch {
+            console.error(`${command} was called error.`)
+        }
     },
 
     cd: function(path) {

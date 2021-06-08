@@ -8,5 +8,5 @@ export default {
 }
 
 data.init()
-web.launch()
+// web.launch()
 telegram.launch()
