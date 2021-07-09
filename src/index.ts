@@ -1,12 +1,7 @@
-import { data } from "./data";
+import data from "./data";
 import { web } from "./web"
-import { telegram } from "./telegram"
-import printer from 'printer'
-
-export default {
-    'CURRENT_PRINTER': printer.getDefaultPrinterName()
-}
+import telegram from "./telegram"
 
 data.init()
-// web.launch()
+web.launch()
 telegram.launch()

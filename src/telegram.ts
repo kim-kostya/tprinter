@@ -18,13 +18,12 @@ bot.on('document', (ctx) => {
     })
 })
 
-export namespace telegram {
-
-    export function launch() {
+export default  {
+    launch() {
         bot.launch()
-    }
+    },
 
-    export function sendMessage(message: string, receiver: data.User) {
+    sendMessage(message: string, receiver: data.User) {
         bot.telegram.sendMessage(receiver.id, message)
     }
 }

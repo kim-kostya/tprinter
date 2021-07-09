@@ -1,21 +1,35 @@
-import express from 'express'
+import express, { json } from 'express'
 import { readFile } from 'fs'
-import printer from 'printer';
+import { getAllDocuments, remove, add, download } from './queue'
+import { data } from './data';
+import fileUpload from 'express-fileupload'
 
 const app = express()
 
-app.get('/', (req, res) => {
-    readFile('./webapp/index.html', (err, data) => {
-        res.send(data)
-    })
+app.use(express.static('./webapp'))
+app.use(express.json())
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/tprinter/web',
+    safeFileNames: true
+}))
+
+app.get('/jobs', (req, res) => {
+    res.send(getAllDocuments())
 })
 
-app.post('/settings', (req, res) => {
-    res.status(200).send()
+app.post('/remove/:id', (req, res) => {
+    remove(req.params.id)
+    res.sendStatus(200)
 })
 
-app.get('/printers', (req, res) => {
-    res.json(printer.getPrinters())
+app.post('/add', (req: any, res) => {
+    req.files.document;
+})
+
+
+app.get('*', (req, res) => {
+    res.status(200).sendFile('webapp/index.html')
 })
 
 export namespace web {

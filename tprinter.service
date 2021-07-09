@@ -1,0 +1,11 @@
+[Unit]
+Description=TPriner Service
+
+[Service]
+Type=simple
+User=tprinter
+ExecStart=/bin/node /lib/tprinter/index.js
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

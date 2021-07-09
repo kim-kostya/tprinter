@@ -1,18 +1,24 @@
-import { data } from "./data";
-import { telegram } from "./telegram";
+import data from "./data";
+import { Document, User } from "./data";
 import { DownloaderHelper } from 'node-downloader-helper'
 import childProcess from 'child_process';
-import printer from 'printer'
-import index from './index'
 
-export var items: data.Document[] = []
-export var currentDocument: data.Document;
+export var items: Document[] = []
+export var currentDocument: Document;
 
-function remove(document: data.Document) {
-    items = items.filter((item: data.Document) => item.id == document.id)
+export function getAllDocuments(): Document[] {
+    return items;
 }
 
-export function add(document: data.Document) {
+export function remove(document: Document | string) {
+    if (typeof(document) === 'object') {
+        items = items.filter((item: Document) => item.id == document.id)
+    } else {
+        items = items.filter((item: Document) => item.id == document)
+    }
+}
+
+export function add(document: Document) {
     items.push(document);
 }
 
@@ -26,8 +32,8 @@ export async function download(url: string, name: string, author: number, id: st
 
     const dh = new DownloaderHelper(url, filePath)
     dh.on('end', () => {
-        data.getUser(author, (user: data.User) => {
-            let doc: data.Document = {
+        data.getUser(author, (user: User) => {
+            let doc: Document = {
                 'id': id,
                 'author': user,
                 'path': filePath
@@ -39,7 +45,7 @@ export async function download(url: string, name: string, author: number, id: st
     })
 }
 
-export async function print(doc: data.Document) {
+export async function print(doc: Document) {
     if (process.platform === "linux") {
         childProcess.execSync(`lp ${doc.path}`)
     } else {

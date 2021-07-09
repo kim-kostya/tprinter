@@ -12,14 +12,7 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            name: linux-arm64.zip
-            arch: arm64
-          - os: ubuntu-latest
-            name: linux-amd64.zip
-            arch: x64
           - os: windows-latest
-            name: windows-amd64.zip
-            arch: x64
 
     steps:
       - uses: actions/checkout@v2
@@ -27,6 +20,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14.x
-      - run: npm ci --target_arch=${{ matrix.arch }}
+      - run: npm ci
       - run: npm run build --if-present
       - run: npm test

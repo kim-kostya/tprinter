@@ -16,7 +16,7 @@ var filter = function(e){
     return e.name !== 'node_modules';
 };
 
-NodeJSZip.zip(path.resolve('./build/'),{
+NodeJSZip.zip(path.resolve('./build/*'),{
             name : "build",
             dir : "./out",
             filter : true

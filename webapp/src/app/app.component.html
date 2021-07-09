@@ -1,0 +1,18 @@
+<table>
+  <tr class=title>
+    <td>ID</td>
+    <td>Name</td>
+    <td>Path</td>
+  </tr>
+  <tr *ngFor="let job of jobs">
+    <td>{{ job.id }}</td>
+    <td>{{ job.name }}</td>
+    <td>{{ job.path }}</td>
+  </tr>
+</table>
+
+
+<form action="/add" method="POST">
+  <input type="file">
+  <button type="submit">ADD</button>
+</form>

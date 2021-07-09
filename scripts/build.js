@@ -1,14 +1,16 @@
 const core = require("./scriptslib");
 
-// TS
+// Server build
 core.execute('tsc');
 
-// Webapp
+// Webapp build
+core.cd('./webapp');
+core.execute('npm install');
+core.execute('npm build');
+core.cd('../');
+
+// Bindle app
 core.mkdir('./build/webapp');
-if (process.platform === 'win32') {
-    core.execute('copy .\\webapp\\* .\\build\\webapp');
-    core.execute('copy .\\package*.json .\\build');
-} else {
-    core.execute('cp -r ./webapp/* ./build/webapp/');
-    core.execute('cp ./package*.json ./build/');
-}
+core.copy('./webapp/dist/webapp', './build/webapp');
+core.copy('./package.json', './build/package.json');
+core.copy('./package-lock.json', './build/package-lock.json');

@@ -5,6 +5,5 @@ node_modules/
 
 # IDE
 .vscode/
-
-# RUST
-native/target/
+.idea/
+.env
