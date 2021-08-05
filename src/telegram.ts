@@ -31,7 +31,7 @@ bot.on('message', (ctx) => {
     let message_author = ctx.message.from;
 
     if (sync(userRepository.find)({id: message_author.id}).length === 0) {
-        userRepository.save({id: message_author.id, privileges: []} as User)
+        userRepository.save({id: message_author.id, nickname: message_author.username, privileges: []} as User)
     }
 })
 
