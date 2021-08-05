@@ -1,35 +1,19 @@
-import sqlite3 from 'sqlite3'
- 
-export interface User {
-    id: string;
-    permission: string[];
-}
+import {createConnection, Connection, EntityTarget, Repository} from "typeorm";
+import typeorm from "typeorm"
 
-export interface Document {
-    id: string;
-    author: User;
-    path: string;
-}
-
-var db: sqlite3.Database;
+var connection: Connection;
 
 export default {
-    init() {
-        sqlite3.verbose()
-        db = new sqlite3.Database('./data.sqlite', (err) => {
-            if (err) {
-                return console.error(err.message);
-            }
-            console.log('Database initialized.');
-        })
+    async init() {
+        connection = await createConnection({
+            type: "sqlite",
+            database: "./database.sqlite"
+        });
+
+        await connection.connect()
     },
 
-    getUser(userId: number, callback: Function) {
-        db.get(`SELECT * FROM users WHERE id=?`, [userId], (err, row) => {
-            if (err) {
-                console.error(err.message);
-            }
-            return callback(row as User)
-        });
+    getRepository<Entity>(entityType: EntityTarget<Entity>): Repository<Entity> {
+        return typeorm.getRepository(entityType)
     }
 }

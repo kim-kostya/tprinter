@@ -2,6 +2,7 @@
 build/
 out/
 node_modules/
+debian/
 
 # IDE
 .vscode/

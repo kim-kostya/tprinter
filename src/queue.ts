@@ -1,28 +1,38 @@
 import data from "./data";
-import { Document, User } from "./data";
+import Document from "./entities/Document";
+import sync from 'synchronized-promise'
+import User from "./entities/User";
 import { DownloaderHelper } from 'node-downloader-helper'
 import childProcess from 'child_process';
+import { unlinkSync } from "fs";
 
-export var items: Document[] = []
-export var currentDocument: Document;
+var documentRepository = data.getRepository(Document)
+var userRepository = data.getRepository(User)
+
+var currentDocument: Document;
 
 export function getAllDocuments(): Document[] {
-    return items;
+    return sync(documentRepository.find)();
 }
 
 export function remove(document: Document | string) {
     if (typeof(document) === 'object') {
-        items = items.filter((item: Document) => item.id == document.id)
+        documentRepository.delete({id: document.id})
+        unlinkSync(document.path)
     } else {
-        items = items.filter((item: Document) => item.id == document)
+        let docEntity = sync(documentRepository.findOne)({id: document})
+        documentRepository.delete({id: document})
+        if (docEntity) {
+            unlinkSync(docEntity.path)
+        }
     }
 }
 
 export function add(document: Document) {
-    items.push(document);
+    documentRepository.save(document);
 }
 
-export async function download(url: string, name: string, author: number, id: string, callback: Function) {
+export async function download(url: string, name: string, author: number, id: string, ctx: any) {
     let filePath = ''
     if (process.platform === 'win32') {
         filePath = `${process.env.TMP}/telegramprinter/${name}`
@@ -32,16 +42,16 @@ export async function download(url: string, name: string, author: number, id: st
 
     const dh = new DownloaderHelper(url, filePath)
     dh.on('end', () => {
-        data.getUser(author, (user: User) => {
-            let doc: Document = {
-                'id': id,
-                'author': user,
-                'path': filePath
-            }
+        let user: User | undefined = sync(userRepository.findOne)({id: author})
+        let doc = {
+            id: id,
+            author: user,
+            path: filePath
+        } as Document
+        documentRepository.save(doc)
 
-            add(doc)
-            callback()
-        })
+        console.debug(`File ${name} added to queue`)
+        ctx.reply(`File ${name} added to queue`)
     })
 }
 
@@ -59,6 +69,6 @@ export function next() {
         remove(currentDocument)
     }
 
-    currentDocument = items[0]
+    currentDocument = getAllDocuments()[0]
     print(currentDocument)
 }
