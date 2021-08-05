@@ -1,10 +1,17 @@
-import express, { json } from 'express'
-import { readFile } from 'fs'
-import { getAllDocuments, remove, add, download } from './queue'
-import { data } from './data';
+import express from 'express'
 import fileUpload from 'express-fileupload'
 
+import { getAllDocuments, remove, add } from './queue'
+import data from './data';
+
+import Document from './entities/Document';
+import User from './entities/User';
+
+const userRepository = data.getRepository(User)
+
 const app = express()
+
+const webUser = new User();
 
 app.use(express.static('./webapp'))
 app.use(express.json())
@@ -24,7 +31,14 @@ app.post('/remove/:id', (req, res) => {
 })
 
 app.post('/add', (req: any, res) => {
-    req.files.document;
+    let file: fileUpload.UploadedFile = req.files.document;
+
+    let doc = new Document()
+    doc.author = webUser;
+    doc.path = file.tempFilePath
+
+    add(doc)
+    res.sendStatus(200)
 })
 
 
@@ -33,7 +47,15 @@ app.get('*', (req, res) => {
 })
 
 export namespace web {
-    export function launch() {
+    export async function launch() {
+        webUser.id = -1
+        webUser.nickname = "WEB"
+        webUser.privileges = []
+
+        if (!userRepository.hasId(webUser)) {
+            userRepository.save(webUser)
+        }
+
         app.listen(process.env.TPRINTER_PORT)
     }
 }
