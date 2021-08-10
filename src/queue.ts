@@ -4,6 +4,7 @@ import sync from 'synchronized-promise'
 import User from "./entities/User";
 import { DownloaderHelper } from 'node-downloader-helper'
 import childProcess from 'child_process';
+import printer from './printer'
 import { unlinkSync } from "fs";
 
 var documentRepository = data.getRepository(Document)
@@ -55,12 +56,8 @@ export async function download(url: string, name: string, author: number, id: st
     })
 }
 
-export async function print(doc: Document) {
-    if (process.platform === "linux") {
-        childProcess.execSync(`lp ${doc.path}`)
-    } else {
-        childProcess.execSync(`print ${doc.path}`)
-    }
+function print(doc: Document) {
+    printer.printFile(doc.path)
     next()
 }
 

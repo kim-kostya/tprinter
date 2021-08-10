@@ -17,7 +17,7 @@ app.use(express.static('./webapp'))
 app.use(express.json())
 app.use(fileUpload({
     useTempFiles: true,
-    tempFileDir: '/tmp/tprinter/web',
+    tempFileDir: `${data.TEMP_DIR}/web`,
     safeFileNames: true
 }))
 
