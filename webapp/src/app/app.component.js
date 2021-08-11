@@ -7,24 +7,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppComponent = void 0;
-const core_1 = require("@angular/core");
-let AppComponent = class AppComponent {
-    constructor() {
+var core_1 = require("@angular/core");
+var AppComponent = /** @class */ (function () {
+    function AppComponent() {
         this.jobs = [];
     }
-    ngOnInit() {
-        fetch('/jobs').then((response) => {
-            response.json().then((json) => {
-                this.jobs = json['jobs'];
+    AppComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        fetch('/jobs').then(function (response) {
+            response.json().then(function (json) {
+                _this.jobs = json['jobs'];
             });
         });
-    }
-};
-AppComponent = __decorate([
-    core_1.Component({
-        selector: 'app-root',
-        templateUrl: './app.component.html',
-        styleUrls: ['./app.component.scss']
-    })
-], AppComponent);
+    };
+    AppComponent = __decorate([
+        core_1.Component({
+            selector: 'app-root',
+            templateUrl: './app.component.html',
+            styleUrls: ['./app.component.scss']
+        })
+    ], AppComponent);
+    return AppComponent;
+}());
 exports.AppComponent = AppComponent;

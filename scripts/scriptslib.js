@@ -8,7 +8,7 @@ function tryCreateDir(dest) {
     }
 }
 
-function copyDir(source, destination, blacklist) {
+function copyDir(source, destination, blacklist=[]) {
     let fileList = fs.readdirSync(source);
     for (let fileId in fileList) {
         let file = fileList[fileId];
@@ -17,7 +17,7 @@ function copyDir(source, destination, blacklist) {
             let destPath = `${destination}/${file}`;
             if (fs.lstatSync(sourcePath).isDirectory()) {
                 tryCreateDir(destPath);
-                copyDir(sourcePath, destPath);
+                copyDir(sourcePath, destPath, blacklist);
             } else {
                 console.log(`${sourcePath} -> ${destPath}`);
                 fs.copyFileSync(sourcePath, destPath);
@@ -27,7 +27,7 @@ function copyDir(source, destination, blacklist) {
 }
 
 function readLocalEnvironment() {
-    let rawLocalEnvironment = fs.readFileSync('./.env');
+    let rawLocalEnvironment = fs.readFileSync('./.env').toString();
     let localEnvironmentPairs = rawLocalEnvironment.split('\n');
     let localEnvironment = {};
     
@@ -46,12 +46,15 @@ module.exports = {
         console.log(`> ${command}`);
         if (process.platform == "win32") {
             try {
-                childProcess.execSync(`cmd.exe /C ${command}`, {
+                console.log(childProcess.execSync(`cmd.exe /C ${command}`, {
                     encoding: "utf8",
-                    env: localEnvironment + process.env
-                });
+                    env: localEnvironment + process.env,
+                    stdio: "pipe",
+                    cwd: process.cwd()
+                }));
             } catch(error) {
                 console.error(`${command} was called error.`);
+                console.error(error.stdout);
                 console.error(error.stderr);
             }
         } else {
@@ -61,18 +64,24 @@ module.exports = {
         }
     },
 
-    copy: function(source, dest) {
+    copy: function(source, dest, blacklist=[]) {
         console.log(`> copy ${source} -> ${dest}`)
         if (!fs.existsSync(source)) {
             throw Error(`"${source}" is invalid path`);
         }
-
-        if (fs.lstatSync(source).isDirectory()) {
+        let metadata = fs.lstatSync(source);
+        if (metadata.isDirectory()) {
             tryCreateDir(dest);
             copyDir(source, dest, blacklist);
         } else {
-            fs.copyFileSync(source, dest);
+            let buffer = source.split('/');
+            fs.copyFileSync(source, `${dest}/${buffer[buffer.length-1]}`);
         }
+    },
+    
+    copyExact: function (source, dest) {
+        console.log(`> copyx ${source} -> ${dest}`)
+        fs.copyFileSync(source, dest);
     },
 
     cd: function(path) {

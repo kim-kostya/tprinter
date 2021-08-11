@@ -7,31 +7,43 @@
     "build": "node ./scripts/build.js",
     "start": "node ./scripts/start.js",
     "clean": "node ./scripts/clean.js",
-    "package": "node ./scripts/package.js",
-    "test": "echo TEST"
+    "package": "node ./scripts/package.js"
   },
   "author": "litepas",
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "@thiagoelg/node-printer": "^0.5.5",
+    "canvas": "^2.8.0",
+    "canvg": "^3.0.7",
+    "docx-pdf": "^0.0.1",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
     "jshint": "^2.13.0",
     "node-downloader-helper": "^1.0.18",
+    "node-fetch": "^2.6.1",
+    "node-gyp": "^3.8.0",
     "node-stream-zip": "^1.13.4",
     "nodeJs-zip": "^1.0.4",
+    "reflect-metadata": "^0.1.13",
     "sqlite3": "^5.0.2",
+    "synchronized-promise": "^0.3.1",
     "telegraf": "^4.3.0",
-    "uuid": "^3.4.0"
+    "typeorm": "^0.2.34",
+    "uuid": "^3.4.0",
+    "xmldom": "^0.6.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.12",
     "@types/express-fileupload": "^1.1.6",
-    "@types/node": "^15.6.0",
-    "@types/printer": "^0.4.0",
+    "@types/node": "^15.14.2",
+    "@types/node-fetch": "^2.5.12",
+    "@types/printer": "^0.4.1",
     "@types/sqlite3": "^3.1.7",
+    "@types/xmldom": "^0.1.31",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
     "eslint": "^7.30.0",
-    "eslint-config-google": "^0.14.0"
+    "eslint-config-google": "^0.14.0",
+    "ts-node": "^10.1.0"
   }
 }

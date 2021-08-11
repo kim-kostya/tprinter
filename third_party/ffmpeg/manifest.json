@@ -1,0 +1,5 @@
+{
+    "name": "FFMpeg",
+    "git": "https://git.ffmpeg.org/ffmpeg.git",
+    "dist": ""
+}

@@ -2,9 +2,14 @@
 build/
 out/
 node_modules/
-debian/
+
+# Debug
+debug/
+.env
+
+# DEB packeger
+package/
 
 # IDE
 .vscode/
 .idea/
-.env

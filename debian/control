@@ -1,0 +1,8 @@
+Package: TPriner
+Maintainer: kim-kostya
+Description: Telegram bot to control printer
+Version: 1.0
+Section: base
+Priority: optional
+Architecture: all
+Depends: nodejs (>=14.17.3), npm (>=7.19.0), ffmpeg, python (>=2.7)
